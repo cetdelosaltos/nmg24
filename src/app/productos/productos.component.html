@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col mb-2">
+            <h1 class="d-inline">Productos</h1> {{ filtrados?.length }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md mb-3">
+            <div class="input-group">
+                <input type="text" #filtrante class="form-control" placeholder="Buscar Productos"
+                    (input)="filtrar(filtrante.value)" id="">
+                <button (click)="verTodos()" class="btn btn-outline-primary">
+                    Ver Todos</button>
+            </div>
+        </div>
+        <div class="col-12 col-md-auto text-end mb-3">
+            <button (click)="agregarProducto()" class="btn btn-primary">
+                Agregar Producto</button>
+        </div>
+    </div>
+    <div class="row vh-50 overflow-auto">
+        <div class="col">
+            <div class="list-group mb-3">
+                <div class="list-group-item list-group-item-action"
+                    *ngFor="let producto of filtrados | orderBy:'nombre','asc'" (click)="editarProducto(producto)">
+                    <div class="row">
+                        <div class="col-auto fw-bold text-primary text-danger-hover">
+                            {{ producto.sku }}
+                        </div>
+                        <div class="col">
+                            {{ producto.nombre | uppercase}} - <small>{{ producto.precio | currency }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

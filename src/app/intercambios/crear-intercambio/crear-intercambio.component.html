@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <div class="col-10">
+        <div class="modal-title">
+            <h5>Crear Intercambio</h5>
+        </div>
+    </div>
+    <div class="col-2 text-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="cerrarModo()"></button>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12">
+            <input #comprador id="typeahead-basic" type="text" class="form-control"
+                [class]="this.filtrado?'':'is-invalid'" [(ngModel)]="filtrado" [ngbTypeahead]="buscarComprador"
+                [inputFormatter]="formatComprador" [resultFormatter]="formatComprador" [editable]="false"
+                [tabIndex]="'1'" placeholder="Buscar Cliente" />
+        </div>
+    </div>
+    <form action="" [formGroup]="planillaIntercambio" (keyup)="validarPlantilla()">
+        <div class="row">
+
+            <div class="col-12 mt-3">
+                <textarea type="text" formControlName="descripcion" id="descripcion" class="form-control"
+                    placeholder="Descripción"></textarea>
+            </div>
+            <!-- <div class="col-12 mt-3">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" formControlName="monto" id="" class="form-control text-end">
+                </div>
+            </div> -->
+        </div>
+        <div class="mt-3">
+            <div class="row">
+                <div [class]="moneda == 'bsd'?'col-8':'col-12'">
+                    <div class="input-group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="monedabsd" autocomplete="off"
+                            (click)="moneda = 'bsd'" [checked]="moneda==='bsd'">
+                        <label class="btn btn-outline-primary rounded-start" for="monedabsd">Bs.</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="monedausd" autocomplete="off"
+                            (click)="moneda = 'usd'" [checked]="moneda==='usd'">
+                        <label class="btn btn-outline-primary" for="monedausd">USD$</label>
+                        @if(moneda=='usd'){
+                        <input id="montoPagoUSD" type="number" class="form-control text-end" formControlName="montoUSD"
+                            (change)="calcularPago()" (keyup)="calcularPago()">
+                        }@else{
+                        <input id="montoPagoBSD" type="number" class="form-control text-end" formControlName="montoBSD"
+                            (change)="calcularPago()" (keyup)="calcularPago()">
+                        }
+                    </div>
+                </div>
+                @if(moneda == 'bsd'){
+                <div class="col-4 lh-1 ">
+                    <small> Monto a Abonar: <br>{{ totalusd | currency:"US$ "}} </small>
+                </div>}
+            </div>
+        </div>
+    </form>
+</div>
+<div class=" modal-footer">
+    <div class="row p-0 g-0 w-100 align-items-center">
+        <div class="col text-start">
+            <span [class]="valido?'text-primary':'text-danger'"> {{mensaje}}</span>
+        </div>
+        <div class="col-auto">
+
+            <button class="btn btn-outline-danger me-2" (click)="cerrarModo()">Cerrar</button>
+            <button class="btn btn-primary" [disabled]="!valido" (click)="IngresarIntercambio()">Ingresar
+                Intercambio</button>
+        </div>
+    </div>
+</div>

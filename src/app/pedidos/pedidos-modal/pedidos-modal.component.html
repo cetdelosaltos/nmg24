@@ -1,0 +1,95 @@
+<div class="modal-header bg-light">
+    <span class="modal-title" id="modal-crear-comprador">Reservación a nombre de: <br> <strong>
+
+            {{ reservacion?.cliente.nombre }} - <a
+                [href]="'whatsapp://send?phone='
+                +telefonoComprador(reservacion.cliente.telefono)+'&text=Hola!%20Su%20pedido%20se%20encuentra%20en%20la%20tienda'" (click)="cerramodo()"
+                class="vinculo-falso">{{ reservacion.cliente.telefono }}</a>
+            @if(reservacion.cliente.correo){
+            - {{ reservacion.cliente.correo }}
+            }
+        </strong></span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cerramodo()"></button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        @if(reservacion?.reserva){
+        <div class="col">
+            <span class="fw-bold">Status: </span><span
+                [class]="reservacion?.estatus =='deuda' ? 'text-danger' : 'text-success'">
+                {{reservacion?.estatus | uppercase}}</span><br>
+            <span class="fw-bold">Fecha de Entrega: </span>{{ fecha }}
+        </div>
+        }
+        <div class="col-auto">
+            <span class="fw-bold">Punto de Entrega: <br> </span>{{ reservacion.locacion }}
+            <small>
+                <div class="col" [innerHTML]="reservacion.fecha_final"> </div>
+            </small>
+        </div>
+    </div>
+</div>
+<div class="modal-body border-top border-bottom bg-light">
+    <div class="row">
+        <div class="col-4">
+            <span class="text-primary fw-bold">Pedido</span>
+        </div>
+        <div class="col-8 text-end">
+            Total: <strong>{{ reservacion.total |currency:"US$ " }} - <span class="text-primary"> {{
+                    totalbs |currency:"
+                    Bs " }} </span></strong>
+        </div>
+    </div>
+</div>
+<ul class="list-group list-group-flush">
+    <ng-container *ngFor="let raso of reservacion.pedidos">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="fw-bold text-primary">{{ raso.cantidad }}</div>
+                </div>
+                <div class="col">
+                    <strong>{{raso?.producto }}</strong>&nbsp; <small class="text-primary">{{ raso?.unidad |
+                        currency
+                        }}</small> - <small class="text-primary fw-bold">{{ raso?.precio | currency
+                        }}</small>
+                    <div *ngIf=" raso.observacion">
+                        <em>Observaciones:</em>
+                        {{raso.observacion}}
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ng-container>
+
+</ul>
+<div class="modal-footer justify-content-center">
+    @if(!esinter){
+    <div class="row gx-2 justify-content-center">
+        @if(reservacion.estatus !== 'deuda' && reservacion.estatus !== 'pago'){
+        <div class="col text-center">
+            <button type="submit" class="btn btn-primary" [routerLink]="['/crear-comanda/actualizar/'+reservacion.id]"
+                [state]="reservacion" (click)="cerramodo()">Actualizar</button>
+        </div>
+        <div class="col text-center">
+            <button type="submit" class="btn btn-danger" (click)="eliminarReservacion(reservacion)">Eliminar</button>
+        </div>
+        }
+        @if(reservacion.estatus !== 'pago'){
+        <div class="col text-center">
+            <button type="submit" class="btn btn-danger "
+                [routerLink]="[(reservacion.estatus !== 'deuda')?'/crear-comanda/pagar/'+ reservacion.id:'/deudas/'+reservacion.id]"
+                [state]="reservacion" (click)="cerramodo()">Pagar</button>
+        </div>
+        }
+        <div class="col text-center" *ngIf="reservacion.estatus !== 'entregado'">
+            <button type=" submit" class="btn btn-success"
+                (click)="entregarPedido(reservacion.reserva.id)">Entregar</button>
+        </div>
+        <div class="col text-center" *ngIf="reservacion.estatus == 'entregado'">
+            <button type=" submit" class="btn btn-primary"
+                (click)="reactivarPedido(reservacion.reserva.id)">Reactivar</button>
+        </div>
+    </div>
+    }
+</div>

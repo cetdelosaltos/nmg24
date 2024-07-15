@@ -1,0 +1,24 @@
+<div class="row align-items-center">
+    <div class="col-md-6 justify-content-evenly">
+        <div class="row">
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Bs</span>
+                    <input id="bolivares" class="form-control" (keyup)="convertirTasa('bolivares')"
+                        [(ngModel)]="bolivares" [inputMask]="currencyInputMask">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">US$</span>
+                    <input id="bolivares" class="form-control" (keyup)="convertirTasa('dolares')" [(ngModel)]="dolares"
+                        [inputMask]="currencyInputMask">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+        Tasa de Cambio: <strong>{{ tasita().tasa |currency:"Bs. " }} - <span class="text-primary">{{ tasita().createdAt
+                |date:"dd MMM yyyy" }}</span></strong>
+    </div>
+</div>

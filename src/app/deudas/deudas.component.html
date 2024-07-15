@@ -1,0 +1,124 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>
+                {{ titulo }}
+            </h1>
+        </div>
+        <div class="col-md-8 mb-3 mb-md-0">
+            <div class="input-group">
+                <input type="text" #filtrante class="form-control" placeholder="Buscar Cliente"
+                    (input)="filtrar(filtrante.value)" id="">
+                <button (click)="verTodos()" class="btn btn-outline-primary">
+                    Ver Todos</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 order-1 order-md-0 mb-3 mb-md-0">
+            <ul class="list-group">
+                @for(deuda of deudas(); track deuda){
+                <li class="list-group-item list-group-item-action" (click)="verDeuda(deuda,$index)"
+                    [class.active]="listactiva === 1+$index">
+                    <div class="row">
+                        <div class="col-8">
+                            <small>
+                                Fecha de Ingreso: {{ deuda.createdAt | date }}
+                            </small><br>
+                            {{ deuda.cliente.nombre }} - {{ deuda.cliente.telefono }}
+
+                        </div>
+                        <div class="col-4 text-end">
+                            <span class="text-primary" [class.text-white]="listactiva === 1+$index"> {{ deuda.total |
+                                currency:"$" }}</span> <br> Restan: <span class="text-danger fw-bold"
+                                [class]="(listactiva === 1+$index)?'text-white text-opacity-75 ':'text-danger'"> {{
+                                deuda.restadeuda |
+                                currency:"$" }}</span>
+                        </div>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-6 order-md-1 order-0 mb-3 mb-md-0">
+            @if (deudadetalle.id) {
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-7">
+                            <small>
+                                Fecha de Ingreso: {{ deudadetalle.createdAt | date }}
+                            </small><br>
+                            <strong>
+                                {{ deudadetalle.cliente.nombre }} - {{ deudadetalle.cliente.telefono }}
+                            </strong>
+                        </div>
+                        <div class="col-5 text-end align-items-end align-content-end">
+                            <span class="text-primary"> {{ deudadetalle.total |
+                                currency:"$" }}</span> - Restan: <span class="text-danger fw-bold"> {{
+                                deudadetalle.restadeuda |
+                                currency:"$" }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @for (pedido of deudadetalle.pedidos; track pedido) {
+                    <li class="list-group-item">
+                        <div class="row g-0">
+                            <div class="col-1">{{pedido.cantidad}}</div>
+                            <div class="col">
+                                {{ pedido.producto }}
+                                @if (pedido.observacion) {<br>
+                                <small class="fst-italic"> {{ pedido.observacion }} </small>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 text-end">
+                                Precio: <span class="text-primary"> {{ pedido.precio | currency:'$' }}</span>
+                            </div>
+                            <div class="col-4 text-end">
+                                Total: <span class="fw-semibold">{{ pedido.precio*pedido.cantidad | currency:'$'
+                                    }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+                <div class="card-header">
+                    Pagos
+                </div>
+                <ul class="list-group list-group-flush">
+                    @for (pago of deudadetalle.pagos; track pago) {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                {{ pago.createdAt | date }}
+                            </div>
+                            <div class="col text-end fw-semibold">
+                                {{ pago.monto | currency:"$" }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <small class="fst-italic">
+                                    {{ pago.metodoDePago }}
+                                </small>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+                <div class="card-footer text-end">
+                    <button class="btn btn-primary" (click)="hacerPago(deudadetalle)">Hacer Pago</button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

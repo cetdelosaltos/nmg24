@@ -1,0 +1,189 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md">
+      <h1>Entradas</h1>
+    </div>
+    <div class="col text-center">
+      <h4 class="d-inline"> Total del Mes:
+      </h4>
+      <h4 class="d-inline text-primary">{{totaldelmes | currency}}</h4>
+    </div>
+    <div class="col text-center text-md-end">
+      <h4 class="d-inline"> Total del Día:
+      </h4>
+      <h4 class="d-inline text-primary">{{totaldeldia | currency}}</h4>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 col-md-4">
+      <div class="row">
+        <div class="col-6">
+          <div class="input-group">
+            <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+              [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)" />
+            <button class="btn btn-outline-secondary" (click)="datepicker.toggle()" type="button"><i
+                class="bi bi-calendar3"></i></button>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group">
+            <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate"
+              [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
+            <button class="btn btn-outline-secondary" (click)="datepicker.toggle()" type="button"><i
+                class="bi bi-calendar3"></i></button>
+          </div>
+        </div>
+        <div class="col-12">
+          <input name="datepicker" class="invisible" ngbDatepicker #datepicker="ngbDatepicker" [autoClose]="'outside'"
+            (dateSelect)="onDateSelection($event)" [dayTemplate]="t" [displayMonths]="2" outsideDays="hidden"
+            [startDate]="fromDate!" tabindex="-1" [maxDate]="hoy" />
+          <ng-template #t let-date let-focused="focused">
+            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+              {{ date.day }}
+            </span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+      <input type="text" #compradorInput placeholder="Buscar Comprador" (keyup)="buscarComprador($event)"
+        class="form-control" />
+    </div>
+    <div class="col-6 col-md-2">
+      <select #metodoInput class=" form-select" (change)="buscarMetodo($event)">
+        <option value="">Seleccionar</option>
+        <option value="Efectivo Bs">Efectivo Bs</option>
+        <option value="USD Cash">USD Cash</option>
+        <option value="Pago Móvil">Pago Móvil</option>
+        <option value="Zelle">Zelle</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Zinli">Zinli</option>
+        <option value="Tarjeta de Débito">Tarjeta de Débito</option>
+        <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+        <option value="Intercambio">Intercambio</option>
+      </select>
+    </div>
+    <div class="col-6 col-md-2">
+      <select #filasInput class=" form-select" formControlName="metodo_de_pago" (change)="cambiarFilas($event)">
+        <option value="10">Filas</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <ngx-datatable #compras [rows]="rows" [limit]="filitas" [columnMode]="ColumnMode.force"
+        class="bootstrap border-1 border-primary" [selected]="selected" [headerHeight]="50" [footerHeight]="100"
+        rowHeight="auto" [selectionType]="SelectionType.single" (select)="verEntrada($event)"
+        [sorts]="[{prop: 'fecha', dir: 'desc'}]" *ngIf="tablacargada">
+        <ngx-datatable-column name="fecha" data-datos="row">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()">FECHA</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value | date }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="comprador">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()">NOMBRE</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="metodo">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()">MÉTODO DE PAGO</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="tasa" [sortable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span>TASA DE CAMBIO</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="totalusd">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()">USD</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value | currency:"USD" }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="totalbs">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()">Bs.</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{ value | currency:"VEF" }}</div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+            let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+            <div class="col-6"> </div>
+            <div class="col-6 text-end">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+                [hidden]="!((rowCount / pageSize) > 1)" (change)="compras.onFooterPage($event)">
+              </datatable-pager>
+            </div>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+<style>
+  .dp-hidden {
+    width: 0;
+    margin: 0;
+    border: none;
+    padding: 0;
+  }
+
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+
+  .custom-day.range,
+  .custom-day:hover {
+    background-color: #5c7b37;
+    color: white;
+  }
+
+  .ngb-dp-weekday {
+    color: #5c7b37;
+  }
+
+  .custom-day.faded {
+    background-color: rgb(141, 199, 63);
+    color: black
+  }
+
+  .ngb-dp-day.disabled {
+    color: #ccc;
+  }
+</style>

@@ -1,0 +1,55 @@
+<div class=" container">
+    <div class="row align-items-center mb-3">
+        <div class="col-md-auto mb-1 mb-md-0">
+            <h1>
+                Clientes
+            </h1>
+        </div>
+        <div class="col mb-3 mb-md-0">
+            <div class="input-group">
+                <input type="text" #filtrante class="form-control" placeholder="Buscar Comprador"
+                    (input)="filtrar(filtrante.value)" id="">
+                <button [routerLink]="['/compradores']" class="btn btn-outline-primary">
+                    Ver Todos
+                </button>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <button (click)="ingresarCompradorModal()" class="btn btn-primary">Agregar Comprador</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <ul class="list-group-flush list-group">
+                @for (compra of filtrados; track $index) {
+                <li class="list-group-item list-group-item-action">
+                    <div class="row">
+                        <div class="datos col" (click)="actualizarCompradorModal(compra)">
+                            <div class="d-inline">
+                                <span class="text-primary fw-bold">Nombre y Apellido: </span>{{ compra.nombre }}
+                            </div>
+                            <div class="d-md-inline">
+                                <span class="text-primary fw-bold"><span class="d-none d-md-inline">-</span> Teléfono:
+                                </span>{{compra.telefono}}
+                            </div>
+                            <div class="d-md-inline" *ngIf="compra.correo">
+                                <span class="text-primary fw-bold"><span class="d-none d-md-inline">-</span>
+                                    Correo:</span>
+                                {{ compra.correo}}
+                            </div>
+
+                        </div>
+                        <div class="acciones col-md-auto text-end">
+                            <button class="text-secondary btn mx-2" (click)="actualizarCompradorModal(compra)"><i
+                                    class="bi bi-pen "></i></button>
+                            <button class="text-danger btn mx-2" (click)="borrarCompradorModal(compra)"><i
+                                    class="bi bi-trash3 "></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

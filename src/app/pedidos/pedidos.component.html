@@ -1,0 +1,162 @@
+<div class="container py-3">
+  <div class="row mb-3">
+    <div class="col">
+      <h1>Pedidos</h1>
+    </div>
+    <div class="col-auto text-end">
+      <a routerLink="/reservaciones/crear" class=" btn btn-primary">
+        Hacer Reservacion
+      </a>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row  mb-3">
+
+        <div class="col-md-12 text-center">
+          <div class="">
+            <div class="btn my-1 mx-1 btn-sm" (click)="listafiltrada = 'pendientes'"
+              [class]="(listafiltrada=='pendientes')?'btn-outline-primary':'btn-primary'">
+              Pendientes
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="listafiltrada = 'vencidas'"
+              [class]="(listafiltrada=='vencidas')?'btn-outline-primary':'btn-primary'">
+              Vencidas
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="listafiltrada = 'entregadas'"
+              [class]="(listafiltrada=='entregadas')?'btn-outline-primary':'btn-primary'">
+              Entregadas
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="listafiltrada = 'todas'"
+              [class]="(listafiltrada=='todas')?'btn-outline-primary':'btn-primary'">
+              Todas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+
+      <div class="row mb-3">
+        <div class="col-md-12 text-center">
+          <div class="">
+            <div class="btn my-1 mx-1 btn-sm" (click)="filtraLocal = 'Tienda Física'"
+              [class]="(filtraLocal=='Tienda Física')?'btn-outline-secondary':'btn-secondary'">
+              Tienda Fisica
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="filtraLocal = 'Delivery'"
+              [class]="(filtraLocal=='Delivery')?'btn-outline-secondary':'btn-secondary'">
+              Delivery
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="filtraLocal = 'Consolidado'"
+              [class]="(filtraLocal=='Consolidado')?'btn-outline-secondary':'btn-secondary'">
+              Consolidado
+            </div>
+            <div class="btn my-1 mx-1 btn-sm" (click)="filtraLocal = 'Todas'"
+              [class]="(filtraLocal=='Todas')?'btn-outline-secondary':'btn-secondary'">
+              Todas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      @if(listafiltrada == 'todas' || listafiltrada=='pendientes'){
+      <div class="row pb-3">
+        <div class="col-md-4">
+          <strong class="text-primary">Reservaciones Pendientes</strong>
+        </div>
+        <div class="col-md-8">
+          <input type="text" placeholder="Filtrar Pendientes por Comprador" [(ngModel)]="filtrante"
+            (keyup)="filtrarLista(activas)" class="form-control">
+        </div>
+      </div>
+      @if (activas) {
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class=" list-group list-group-flush">
+              @for(item of activas; let i = $index; track $index){
+              @if(filtraLocal == 'Todas' || filtraLocal == item.locacion){
+              <div class="list-group-item">
+                <div class="row align-items-center align-content-center">
+                  <div class="col-md">
+                    <datos-comprador [pedido]="item"></datos-comprador>
+                  </div>
+                  <div class="col-md-auto text-end">
+                    <button class="btn btn-sm my-2 my-md-0 btn-outline-primary" (click)="verReservacion(item)">Ver
+                      Reservacion</button>
+                  </div>
+                </div>
+              </div>
+              }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+      }
+      <ng-container *ngIf="listafiltrada == 'todas' || listafiltrada=='vencidas' ">
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <strong class="text-primary">Reservaciones Vencidas</strong>
+          </div>
+        </div>
+        <div class="row" *ngIf="reservaciones.vencidas">
+          <div class="col-md-12">
+            <div class="card">
+              <div class=" list-group list-group-flush">
+                <ng-container *ngFor="let item of reservaciones.vencidas; let i = index;">
+                  <div class="list-group-item" *ngIf="filtraLocal == 'Todas' || filtraLocal == item.locacion ">
+                    <div class="row align-items-center align-content-center">
+                      <div class="col-md">
+                        <datos-comprador [pedido]="item"></datos-comprador>
+                      </div>
+                      <div class="col-md-auto">
+                        <button class="btn btn-sm my-2 my-md-0 btn-outline-primary" (click)="verReservacion(item)">Ver
+                          Reservacion</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="listafiltrada == 'todas' || listafiltrada=='entregadas' ">
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <strong class="text-primary">Reservaciones Entregadas</strong>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class=" list-group list-group-flush">
+                <ng-container *ngFor="let item of reservaciones.entregadas">
+                  <div class="list-group-item bg-claro" *ngIf="filtraLocal == 'Todas' || filtraLocal == item.locacion ">
+                    <div class="row align-items-center align-content-center">
+                      <div class="col-md">
+                        <datos-comprador [pedido]="item"></datos-comprador>
+                      </div>
+                      <div class="col-md-auto">
+                        <button class="btn btn-sm my-2 my-md-0 btn-outline-primary" (click)="verReservacion(item)">Ver
+                          Reservacion</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="modal-header moditoCliete">
+    <div class="row w-100 align-content-center align-items-center">
+        <div class="col">
+            <h4 class="modal-title" id="modal-crear-comprador">Ingresar Pago</h4>
+        </div>
+        <div class="col-auto text-end justify-content-end">
+            Fecha: <strong>{{datosPago.fecha_entrega | date:"dd-MM-yyyy"}}</strong>
+            <button type="button" class="btn-close btn-close-danger ms-3" aria-label="Close"
+                (click)="cerrarCrearPago()"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body border-bottom">
+    <div class="row">
+        <div class="col-auto">
+            Comprador: <strong class="text-primary"> {{ cliente.nombre }} - {{cliente.telefono}} </strong>
+        </div>
+        <div class="col text-end">
+            Tasa de Cambio <strong>{{ tasadeldia.tasa |currency:"Bs. " }}</strong>
+        </div>
+    </div>
+</div>
+<div class="modal-body py-0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-end">
+                    Cant.
+                </th>
+                <th>
+                    Producto
+                </th>
+                <th class="text-end">
+                    Precio
+                </th>
+                <th class="text-end">
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for ( pedido of pedidos; track pedido) {
+            <tr>
+                <td class="text-end" [class]="pedido.value.observacion?'border-bottom-0':''">
+                    {{ pedido.value.cantidad }}
+                </td>
+                <td [class]=" (pedido.value.observacion)?'border-bottom-0':''">
+                    @if(productoArray(pedido.value.producto)){
+                    {{ pedido.value.producto.nombre }}
+                    }@else{
+                    {{ pedido.value.producto }}
+                    }
+                </td>
+                <td class="text-end" [class]="(pedido.value.observacion)?' border-bottom-0':''">
+                    {{ pedido.value.precio | currency :"$ "}}
+                </td>
+                <td class="text-end" [class]="(pedido.value.observacion)?' border-bottom-0':''">
+                    {{ pedido.value.precio * pedido.value.cantidad | currency :"$ " }}
+                </td>
+            </tr>
+            @if(pedido.value.observacion){
+            <tr class="border-top-0 pt-0 bg-light">
+                <td colspan="4" class="pt-0">
+                    Observación:
+                    <small class="fst-italic text-primary">
+                        {{ pedido.value.observacion }}
+                    </small>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal-body pt-0">
+    <div class="row">
+        <div class="col-md-8">
+            <form action="" [formGroup]="metodosDePago">
+                <div class="row">
+                    @for (campito of metodoshtml; track campito) {
+                    @if(campito){
+                    <div class="col-6 col-md-4 mb-2">
+                        <label>
+                            <input type="checkbox" [formControlName]="campito.control" [id]="campito.control"
+                                [value]="campito.nombre" (change)="validarMetodoDePago(campito.control)" />
+                            {{ campito.nombre}}
+                        </label>
+                    </div>
+                    }
+                    }
+                </div>
+            </form>
+            <div [class]="(valido)?'text-primary':'text-danger'">{{mensaje}} @if(mismafecha){ <br>No se puede Reservar
+                para esa fecha. }</div>
+        </div>
+        <div class="col-md-4 text-end">
+            <form [formGroup]="planillaPago">
+                <span class="text-primary fs-4">
+                    {{total | currency: "$"}}</span><br>
+                <span class="fs-4 fw-bold">
+                    {{total*tasadeldia.tasa | currency:"Bs. "}}</span>
+                <div class="mt-2">
+                    <small> @if(moneda == 'bsd' && totalusd){ Monto a Pagar: {{ totalusd | currency:"US$ "}}
+                        @if(cuantofalta >0){ - Faltan:
+                        {{cuantofalta |currency:"US$ "}} }}</small>
+                    <div class="input-group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="monedabsd" autocomplete="off"
+                            (click)="moneda = 'bsd'" [checked]="moneda==='bsd'">
+                        <label class="btn btn-outline-primary rounded-start" for="monedabsd">Bs.</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="monedausd" autocomplete="off"
+                            (click)="moneda = 'usd'" [checked]="moneda==='usd'">
+                        <label class="btn btn-outline-primary" for="monedausd">USD$</label>
+                        @if(moneda=='usd'){
+                        <input id="montoPagoUSD" type="number" class="form-control text-end"
+                            formControlName="montoPagoUSD" (change)="calcularPago()" (keyup)="calcularPago()">
+                        }@else{
+                        <input id="montoPagoBSD" type="number" class="form-control text-end"
+                            formControlName="montoPagoBSD" (change)="calcularPago()" (keyup)="calcularPago()">
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    @switch (cuantopago) {
+    @case('suficiente'){
+    <button type="submit" class="btn btn-primary" [disabled]="!valido || cuantopago == 'sobra'"
+        (click)="ingresarPago('pago')">Ingresar Pago</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!valido || cuantopago == 'sobra'|| mismafecha"
+        (click)="ingresarPago('pago-reserva')">Pagar y Reservar</button>
+    }
+    @case('falta'){
+    <button type="submit" class="btn btn-danger" [disabled]="cuantopago == 'sobra'" (click)="ingresarPago('deuda')"
+        [disabled]="this.planillaPago.controls.montoPagoUSD.value > 0">Deuda</button>
+    <button type="submit" class="btn btn-danger"
+        [disabled]="!valido || cuantopago == 'sobra' || this.planillaPago.controls.montoPagoUSD.value == 0"
+        (click)="ingresarPago('deuda-entregar')">Abonar y Entregar</button>
+    <button type="submit" class="btn btn-danger" [disabled]="!valido || cuantopago == 'sobra' || mismafecha"
+        (click)="ingresarPago('deuda-reserva')">Abonar y Reservar</button>
+
+    }
+    @case('sobra'){
+    <span class="">El pago excede el monto.</span>
+    }
+    }
+</div>

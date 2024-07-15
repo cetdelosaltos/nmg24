@@ -1,0 +1,78 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-crear-comprador">
+        {{ quehacer=='actualizar'?'Actualizar Producto':'Agregar Producto'}}
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cerrarCrearComprador()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="planillaProducto">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-4">
+                        SKU
+                    </div>
+                    <div class="col">
+                        <input type="text" formControlName="sku" class="form-control"
+                            [class]="planillaProducto.controls.sku.valid?' is-valid':' is-invalid' "
+                            [readOnly]="quehacer=='actualizar'"
+                            [value]="planillaProducto.controls.sku.value.toUpperCase()">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-4">
+                        Nombre
+                    </div>
+                    <div class="col">
+                        <input type="phone" formControlName="nombre" class="form-control"
+                            [class]="planillaProducto.controls.nombre.valid?' is-valid':'is-invalid'"
+                            [value]="planillaProducto.controls.nombre.value.toUpperCase()">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-4">
+                        Precio
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                            <input formControlName="precio" class="form-control"
+                                [class]="planillaProducto.controls.precio.valid?'':'is-invalid'"
+                                [inputMask]="currencyInputMask" required>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+<div class="modal-body border-top">
+    <div class="row">
+
+        <div [innerHTML]="mensaje" class="col"></div>
+        <div *ngIf="!planillaProducto.controls.sku.valid" class="col text-end">SKU Inválido</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col text-start" *ngIf="quehacer=='actualizar'">
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-outline-primary" (click)="actualizarProducto()">Actualizar
+                    Producto</button>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-danger ms-2"
+                    (click)="borrarProducto(producto)">ELIMINAR</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="col text-end" *ngIf="quehacer!=='actualizar'">
+        <button type="submit" class="btn btn-primary" [disabled]="!planillaProducto.valid"
+            (click)="crearProducto()">Ingresar Producto</button>
+    </div>
+</div>

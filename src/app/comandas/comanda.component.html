@@ -1,0 +1,200 @@
+<ng-container *ngIf="!cargado; else elseTemplate">
+    <i class="bi bi-arrow-clockwise"></i>
+</ng-container>
+<ng-template #elseTemplate>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Crear Comanda</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <hr class="d-md-none">
+                <label class="form-label fw-bold text-primary"> Buscar Cliente:</label>
+                <input #comprador id="typeahead-basic" type="text" class="form-control"
+                    [class]="this.filtrado?'':'is-invalid'" [(ngModel)]="filtrado" [ngbTypeahead]="buscarComprador"
+                    [inputFormatter]="formatComprador" [resultFormatter]="formatComprador" [editable]="false"
+                    [tabIndex]="'1'" />
+                <div>
+                </div>
+                @if (this.filtrado){
+
+                <div class="mt-3">
+                    Nombre y Apellido:<br><strong> {{filtrado?.nombre}}</strong><br>
+                    Teléfono:<br><strong>{{filtrado?.telefono}}</strong><br>
+                    Correo Electrónico:<br><strong>{{filtrado?.correo}}</strong>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-primary" (click)="actualizarComprador(filtrado)">Actualizar
+                            Datos del Comprador</button>
+                    </div>
+                </div>
+                } @else {
+                <button tabindex="-1" class="btn btn-outline-primary my-2" (click)="ingresarCompradorModal()">Comprador
+                    Nuevo</button>
+
+                }
+            </div>
+            <div class="col-md-9">
+                <hr class="d-md-none">
+                <label class="form-label fw-bold text-primary">
+                    Datos de la Comanda
+                </label>
+                @if(planillaOtrosDatos){
+                <form action="" [formGroup]="planillaOtrosDatos" (keyup)="validarPlanilla()">
+
+                    <div class="row">
+                        @if(planillaOtrosDatos.controls.fecha_entrega !== undefined){
+                        <div class="col">
+                            <div class="input-group">
+                                <label for="" class="input-group-text">
+                                    Fecha:
+                                </label>
+                                <input type="date" formControlName="fecha_entrega" id="" class="form-control"
+                                    [class]="planillaOtrosDatos?.controls.fecha_entrega?.valid?'':'is-invalid'"
+                                    min="{{fechahoy | date:'yyyy-MM-dd'}}">
+                            </div>
+                        </div>
+                        }
+                        <div class="col">
+                            <div class="input-group">
+                                <label for="" class="input-group-text">
+                                    Hora:
+                                </label>
+                                <input type="time" formControlName="hora_entrega" id="" step="1800" class="form-control"
+                                    [class]="planillaOtrosDatos.controls.hora_entrega.valid?'':'is-invalid'">
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <label for="" class="input-group-text">
+                                    Lugar:
+                                </label>
+                                <select formControlName="locacion" class="form-select"
+                                    [class]="planillaOtrosDatos.controls.locacion.valid?'':'is-invalid'">
+                                    <option value="Tienda Física">Tienda Física</option>
+                                    <option value="Delivery">Delivery</option>
+                                    <option value="Consolidado">Consolidado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                }
+                <hr>
+                <div class="form-label mt-3 fw-bold text-primary  ">
+                    Pedido
+                </div>
+                @for (form of formularioPedidos; track $index) {
+                <form [formGroup]="form" (keyup)="validarPlanilla()">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row gx-1 align-items-end">
+                                <div class="col-md-1 col-3 mb-2">
+                                    <div class="">
+                                        <label for="cantidad" class=""> Cantidad </label>
+                                        <input [tabIndex]="$index" [id]="'cantidad'+$index" min="1" type="number"
+                                            formControlName="cantidad" class="form-control" (change)="calcularTotal()">
+                                    </div>
+                                </div>
+                                <div class="col-md col-9 mb-2">
+                                    <div class="">
+                                        <label> Producto </label>
+                                        <input [id]="['productoBuscador'+$index]" type="text" formControlName="producto"
+                                            class="form-control" [ngbTypeahead]="buscarProductos"
+                                            [inputFormatter]="formatoProd" [resultFormatter]="formatoProd"
+                                            [editable]="true" [class]="form.valid?'is-valid':'is-invalid'"
+                                            (selectItem)="seleccionaProducto($event, $index)" [tabIndex]="$index">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-5 mb-2">
+                                    <div class="">
+                                        <label class="">Precio</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input [tabIndex]="$index" [id]="'precioUnitario'+$index" type="number"
+                                                formControlName="precio" class="form-control"
+                                                [class]="form.controls.precio.valid?'is-valid':'is-invalid'"
+                                                (change)="calcularTotal()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-5 mb-2">
+                                    <div class="">
+                                        <label class="">Total</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input [tabIndex]="$index" [id]="'subTotal'+$index" type="text"
+                                                formControlName="total" class="form-control"
+                                                [class]="form.controls.total.valid?'is-valid':'is-invalid'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-auto col-2 mb-2 text-end">
+                                    @if (!$first) {
+                                    <button tabindex="-1" class="btn btn-danger" (click)="borrarFila(form)">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <label class="input-group-text">Observación</label>
+                                        <input type="text" formControlName="observacion" [id]="'observacion'+$index"
+                                            class="form-control" [tabIndex]="$index">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                }
+                <hr>
+                <div class="row mt-3 p-0">
+                    <div class="col-md-6 p-0">
+                        <button (click)="meterProducto()" class="btn btn-outline-primary mx-2 ">Crear Producto
+                            Nuevo</button>
+                    </div>
+                    <div class="col-md-6  p-0 text-end"> <button [tabIndex]="'6'" class="btn btn-primary"
+                            (click)="agregarFila()"><i class="bi bi-plus-square me-2"></i>
+                            Agregar Fila</button>
+
+                    </div>
+                </div>
+                <div class="row mt-3 pt-3 align-content-center align-items-center border-top border-gray">
+                    <div class="col-md-6 mb-3">
+                        <span [class]="!planivalido ? 'text-danger':'text-primary' "> {{mensaje}}</span>
+                        @if(mismafecha){
+                        <br><span class="">No se puede reservar. <br>La fecha y hora de entrega es igual o menor a la
+                            actual. </span>
+                        }
+                    </div>
+                    <div class="col-md-6 text-end text-primary fs-3 ">
+                        <span>{{ eltotal | currency:'$ ' }}</span> - <span class="text-secondary">{{
+                            totalbs | currency:'Bs ' }}</span>
+                    </div>
+                </div>
+                <div class="row mt-3 pt-3 align-content-center align-items-center border-top border-gray">
+                    <div class="col-md-12 text-end">
+                        <button *ngIf="accion == 'crear'" [tabIndex]="'8'" type="submit" #registrarEntrada
+                            (click)="hacerReservacion()" class="btn btn-primary me-3"
+                            [disabled]="!planivalido || mismafecha">Reservar</button>
+                        <button *ngIf="accion == 'actualizar' || accion =='pagar'" [tabIndex]="'8'" type="submit"
+                            #registrarEntrada (click)="actualizarReservacion()"
+                            class="btn btn-primary me-3">Actualizar</button>
+                        <!-- <button [tabIndex]="'8'" type="submit" #registrarEntrada (click)="endeudarReservacion()"
+                            class="btn btn-outline-danger me-3" [disabled]="!planivalido">Pagar
+                            Después</button> -->
+                        <button [tabIndex]="'8'" type="submit" #registrarEntrada (click)="pagarReservacion()"
+                            class="btn btn-outline-primary" [disabled]="!planivalido">
+                            Pagar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

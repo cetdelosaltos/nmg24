@@ -1,0 +1,29 @@
+<div class="row align-items-center">
+    <div class="col-md">
+        <div class="d-md-inline">
+            <span class="fw-bold text-gris" *ngIf="dia.dia">Fecha de
+                Entrega: <br class="d-md-none d-inline">
+            </span>{{
+            dia.dia | date }} -
+            <span class="d-md-inline d-none">
+                <span class="fw-bold text-gris" *ngIf="dia.hora"> Hora de
+                    Entrega:</span>
+            </span>
+            {{ dia.hora }}
+        </div>
+        <div class="d-md-inline">
+            <ng-container *ngIf="pedido.locacion">
+                - <span class="fw-bold text-gris">Punto de Entrega: <br class="d-md-none d-inline">
+                </span>
+                {{ pedido.locacion }}
+            </ng-container>
+        </div>
+        <div class="d-md-inline" *ngIf="pedido.cliente.nombre">
+            <br class="d-none d-md-inline">
+            <span class="fw-bold text-gris" *ngIf="pedido?.cliente">Comprador:
+                <br class="d-md-none d-inline"></span>
+            <span>{{pedido.cliente.nombre}}
+            </span>- {{pedido?.cliente.telefono}}
+        </div>
+    </div>
+</div>

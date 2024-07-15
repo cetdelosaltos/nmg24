@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Pedidos NMG</string>
+    <string name="title_activity_main">Pedidos NMG</string>
+    <string name="package_name">rsv24.nomoregorditos.com</string>
+    <string name="custom_url_scheme">rsv24.nomoregorditos.com</string>
+</resources>

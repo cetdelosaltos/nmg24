@@ -1,0 +1,105 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h1>Intercambios</h1>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" #filtrante class="form-control" placeholder="Buscar Cliente"
+                    (input)="filtrar(filtrante.value)" id="">
+                <button (click)="verTodos()" class="btn btn-outline-primary">
+                    Ver Todos</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-outline-primary" (click)="crearIntercambio()"> Ingresar Intercambio
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <ul class="list-group">
+                @for (cambio of intercambios(); track cambio; let ii = $index) {
+                <li class="list-group-item list-group-item-action" [class.active]="listactiva === 1+ii"
+                    (click)="verIntercambio(cambio,ii)">
+                    <div class="row">
+                        <div class="col-auto">
+                            {{cambio.nombre}}
+                        </div>
+                        <div class="col text-end">
+                            {{ cambio.deuda | currency:"$"}}
+                        </div>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+        <div class="col-8">
+            @if(detalles.id > 0){
+            <div class="card">
+                <div class="card-header bg-primary fw-bold text-white">
+                    <div class="row">
+                        <div class="col-auto">
+
+                            {{ detalles.nombre }} -
+                            {{ detalles.telefono }}
+                            @if(detalles.correo){
+                            - {{detalles.correo}}
+                            }
+                        </div>
+                        <div class="col text-end text-white fw-bold">
+                            {{detalles.deuda | currency:"$"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header">
+                    Intercambios
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    @for (item of detalles.intercambios; track item) {
+                    <li class="list-group-item">
+
+                        <div class="row align-items-end">
+                            <div class="col">
+                                <div> Fecha de Ingreso: {{item.created_at | date}} </div>
+                                <div>{{ item.descripcion }}</div>
+
+                            </div>
+
+                            <div
+                                class="col-auto align-items-end align-content-end justify-content-end text-black-50 text-end fs-5 fw-bold">
+                                {{ item.monto | currency:"$ " }}
+                            </div>
+                            <div class="col-auto text-end">
+                                <button class="btn-danger btn btn-sm"
+                                    (click)="eliminarIntercambio(item.id)">Eliminar</button>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+                <div class="card-header">
+                    Pagos
+                </div>
+                <ul class="list-group-flush list-group">
+                    @for (item of detalles.pagos; track item) {
+                    <li class="list-group-item list-group-item-action" (click)="verEntrada(item.comandaId)">
+                        <div class="row p-0">
+                            <div class="col-9">
+                                <button class="btn me-2 btn-outline-primary btn-sm">Ver
+                                    Entrada </button> Fecha de Ingreso: {{item.createdAt | date}}
+                            </div>
+                            <div
+                                class="col-3 align-items-end align-content-end justify-content-end text-black-50 text-end fs-5 fw-bold">
+                                {{ item.monto | currency:"$ " }}
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+            }
+        </div>
+    </div>
+</div>

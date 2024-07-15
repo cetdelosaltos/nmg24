@@ -1,0 +1,103 @@
+<div class="modal-header moditoCliete">
+    <h4 class="modal-title" id="modal-crear-comprador">Ingresar Comprador</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cerrarCrearComprador()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="planillaComprador">
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2">
+                        Nombre
+                    </div>
+                    <div class="col">
+                        <input type="text" formControlName="nombre" class="form-control w-100"
+                            [class]="planillaComprador.controls.nombre.valid?' is-valid':'is-invalid'">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-12 accordion-button">
+                        Telefono
+                    </div>
+                    <div class="col-12 col-md" formGroupName="telefono">
+                        <div class="d-md-none row">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label for="codigo" class="input-group-text">+</label>
+                                    <input type="number" min="0" name="codigo" formControlName="codigo" id="codigo"
+                                        class="form-control fs-6" [class]="codigo != null ?' is-valid':'is-invalid'">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <select name="operadora" formControlName="operadora" id="operadora"
+                                    class="form-select fs-6" [class]=" operadora != '0' ?' is-valid':'is-invalid'">
+                                    <option value="412">412</option>
+                                    <option value="414">414</option>
+                                    <option value="416">416</option>
+                                    <option value="424">424</option>
+                                    <option value="426">426</option>
+                                    <option value="212">212</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+
+                                <input type="text" name="telefon" formControlName="telefon" id="telefon"
+                                    class="form-control mt-3"
+                                    [class]="this.planillaComprador.controls.telefono.controls.telefon.valid ?' is-valid':'is-invalid'">
+                            </div>
+                        </div>
+                        <div class="d-none d-md-flex input-group">
+                            <div class="input-group w-25">
+                                <label for="codigo" class="input-group-text">+</label>
+                                <input type="number" min="0" name="codigo" formControlName="codigo" id="codigo"
+                                    class="form-control rounded-0 fs-6"
+                                    [class]="codigo != null ?' is-valid':'is-invalid'">
+                            </div>
+                            <select name="operadora" formControlName="operadora" id="operadora"
+                                class="form-select fs-6 w-25" [class]=" operadora != '0' ?' is-valid':'is-invalid'">
+                                <option value="412">412</option>
+                                <option value="414">414</option>
+                                <option value="416">416</option>
+                                <option value="424">424</option>
+                                <option value="426">426</option>
+                                <option value="212">212</option>
+                            </select>
+                            <input type="text" name="telefon" formControlName="telefon" id="telefon"
+                                class="form-control w-50"
+                                [class]="this.planillaComprador.controls.telefono.controls.telefon.valid ?' is-valid':'is-invalid'">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2">
+                        Email
+                    </div>
+                    <div class="col">
+                        <input type="email" formControlName="correo" class="form-control w-100"
+                            [class]="planillaComprador.controls.correo.valid?'':'is-invalid'">
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </form>
+</div>
+<div class="modal-body border-top">
+    <div [innerHTML]="mensaje"></div>
+</div>
+<div class="modal-footer">
+    @if (quehacer=='actualizar' ) {
+
+    <button type="submit" class="btn btn-outline-primary" (click)="actualizarComprador()">Actualizar
+        Comprador</button>
+    <button type="submit" class="btn btn-outline-success ms-2" (click)="borrarPlanilla()">Limpiar
+        Planilla</button>
+    } @else {
+    <button type="submit" class="btn btn-primary" (click)="registrarComprador()">Ingresar Comprador</button>
+    }
+</div>

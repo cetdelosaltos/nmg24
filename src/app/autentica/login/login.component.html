@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <span [class]="logeo">
+                        {{ mensaje }}
+                    </span>
+                </div>
+                <form action="" [formGroup]="iniciaPlan">
+                    <div class="card-body">
+                        <div class="row g-3">
+
+                            <div>
+                                <input type="text" formControlName="usuario" placeholder="Usuario" class="form-control"
+                                    id="">
+                            </div>
+                            <div>
+                                <input type="password" formControlName="lacontra" placeholder="Contraseña"
+                                    class="form-control" id="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary" (click)="entrar()">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

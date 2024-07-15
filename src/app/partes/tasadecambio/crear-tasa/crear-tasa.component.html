@@ -1,0 +1,24 @@
+<form [formGroup]="plantillaTasa">
+    <div class="modal-header">
+        Definir Tasa de Cambio
+    </div>
+    <div class="modal-body">
+        <div class="row ">
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Bs</span>
+                    <input id="bolivares" class="form-control" formControlName="tasa" [inputMask]="currencyInputMask">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Fecha</span>
+                    <input id="fecha" type="datetime-local" class="form-control" formControlName="createdAt">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal-footer text-end">
+    <button class="btn btn-primary" (click)="meterTasa()">Ingresar</button>
+</div>
