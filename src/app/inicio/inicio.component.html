@@ -1,3 +1,6 @@
+<style>
+
+</style>
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-12 mb-3 order-last order-md-first">
@@ -6,7 +9,8 @@
                     <h1>Para Hoy </h1>
                 </div>
                 <div class="col-md-9">
-                    <h1 class="text-primary">{{ hoy }} - <small class="text-dark">{{ reloj | date: 'hh:mm a' }}</small>
+                    <h1 class="text-primary">{{ hoy }} - <small class="text-dark">{{ reloj() | date: 'hh:mm a'
+                            }}</small>
                     </h1>
                 </div>
             </div>
@@ -15,13 +19,12 @@
     <div class="row">
         <div class="col-12 col-md-auto text-center mb-3">
             <ngb-datepicker #dp (dateSelect)="reservaenCal($event)" (navigate)="date = $event.next"
-                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1" [weekdays]="true"></ngb-datepicker>
+                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1" [weekdays]="false"></ngb-datepicker>
             <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
-                let-disabled="disabled" let-focused="focused">
+                let-disabled="disabled" let-focused="focused" class="p-2">
                 <span
                     class="custom-day border-primary h-100 d-flex align-items-center justify-content-center text-center"
-                    [class]="(focused)?'bg-secondary':''" [class]=" (eshoy(date))?'bg-primary text-light':'bg-white'"
-                    [class.bg-secondary]="selected " [class.text-muted]="disabled" [class.border]="tienePedido(date)">
+                    [ngClass]="esFinde(date, selected, focused)">
                     {{ date.day }}
                 </span>
             </ng-template>
@@ -39,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ( reser of reservas; track reser.id) {
+                        @for ( reser of reservas; track reser) {
                         <tr>
                             <td colspan="4" class="bg-light" (click)="verReserva(reser)">
                                 <div class="row">
@@ -71,7 +74,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @for (raso of reser.pedidos; track raso.id) {
+                        @for (raso of reser.pedidos; track raso) {
                         <tr>
                             <td class="fw-bold">{{raso.cantidad}}</td>
                             <td>{{ reser?.locacion }}</td>

@@ -42,7 +42,7 @@
                     Datos de la Comanda
                 </label>
                 @if(planillaOtrosDatos){
-                <form action="" [formGroup]="planillaOtrosDatos" (keyup)="validarPlanilla()">
+                <form action="" [formGroup]="planillaOtrosDatos" (input)="validarPlanilla()">
 
                     <div class="row">
                         @if(planillaOtrosDatos.controls.fecha_entrega !== undefined){
@@ -86,7 +86,7 @@
                 <div class="form-label mt-3 fw-bold text-primary  ">
                     Pedido
                 </div>
-                @for (form of formularioPedidos; track $index) {
+                @for (form of formularioPedidos; track form) {
                 <form [formGroup]="form" (keyup)="validarPlanilla()">
                     <div class="row">
                         <div class="col">

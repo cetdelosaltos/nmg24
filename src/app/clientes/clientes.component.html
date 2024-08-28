@@ -21,7 +21,7 @@
     <div class="row">
         <div class="card">
             <ul class="list-group-flush list-group">
-                @for (compra of filtrados; track $index) {
+                @for (compra of filtrados; track compra) {
                 <li class="list-group-item list-group-item-action">
                     <div class="row">
                         <div class="datos col" (click)="actualizarCompradorModal(compra)">

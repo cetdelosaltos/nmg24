@@ -52,6 +52,7 @@ export class PedidosComponent implements OnInit {
       var hoynew = new Date();
       var hoyfor = hoynew.getFullYear() + '-' + (hoynew.getMonth() + 1) + '-' + hoynew.getDate();
       var hoy = Date.parse(hoyfor);
+      console.log(res);
       res.forEach((item: any) => {
         let a: any = item;
         var reservita = a.reserva;
@@ -64,7 +65,7 @@ export class PedidosComponent implements OnInit {
         if (reservita.estatus == 'entregado') {
           palpote.entregadas.push(a);
         }
-        if (hoy > a.fecha && reservita.estatus !== 'entregado') {
+        if (hoy > fechau && reservita.estatus !== 'entregado' && reservita.estatus !== 'pagada') {
           palpote.vencidas.push(a);
         }
       });

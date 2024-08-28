@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, type OnInit } from '@angular/core';
-import { NgbCalendar, NgbDateStruct, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, signal, ViewEncapsulation, type OnInit } from '@angular/core';
+import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TasaDeCambioService } from '../../servicios/tasa-de-cambio.service';
 import { ReservasService } from '../../servicios/reservas.service';
 import { Router, RouterModule } from '@angular/router';
@@ -17,7 +17,10 @@ import { SocketService } from '../../servicios/socket.service';
   ],
   templateUrl: './inicio.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './inicio.component.css'
 })
+
+
 export class InicioComponent implements OnInit {
   crudo: any = [];
   hoy: any;
@@ -27,10 +30,9 @@ export class InicioComponent implements OnInit {
   locacion: any = "Tienda Física";
   todasReservas: any = [];
   contadorReloj: any;
-  reloj: any = new Date();
+  reloj: any = signal(new Date());
   fecha_final: any;
   tasadecambio: any = {};
-
   constructor(
     private modal: NgbModal,
     public ruta: Router,
@@ -38,12 +40,15 @@ export class InicioComponent implements OnInit {
     private tasa: TasaDeCambioService,
     private app: ReservasService,
     public cambios: ChangeDetectorRef,
-    private radio: SocketService
+    private radio: SocketService,
+    public formatter: NgbDateParserFormatter,
+
   ) {
 
   }
 
   async ngOnInit() {
+
     (await this.tasa.traerTDCEX()).subscribe((res: any) => {
       this.tasadecambio.tasa = res.promedio;
       this.tasadecambio.createdAt = res.fechaActualizacion
@@ -100,7 +105,7 @@ export class InicioComponent implements OnInit {
     })
 
     this.contadorReloj = setInterval(() => {
-      this.reloj = new Date();
+      this.reloj.set(new Date());
     }, 30000);
 
 
@@ -112,6 +117,30 @@ export class InicioComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  esFinde(fecha: NgbDate, selected: boolean, focused: boolean) {
+    var diita: Date = new Date(fecha.year, fecha.month - 1, fecha.day);
+    var clasita = ' ';
+    if (diita.getDay() < 1) {
+      clasita += 'text-primary '
+    }
+    if (diita.getDay() > 5 || diita.getDay() < 1) {
+      clasita += 'bg-primary-subtle ';
+    }
+    if (selected) {
+      clasita = 'bg-secondary '
+    }
+    if (focused) {
+      clasita = 'bg-secondary '
+    }
+    if (this.eshoy(fecha)) {
+      clasita = 'bg-primary text-white'
+    }
+    if (this.tienePedido(fecha)) {
+      clasita = 'border bg-white '
+    }
+    console.log(clasita)
+    return clasita;
   }
   traerHoy() {
     var elhoy = this.calendar.getToday();
