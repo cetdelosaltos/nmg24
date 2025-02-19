@@ -139,7 +139,6 @@ export class InicioComponent implements OnInit {
     if (this.tienePedido(fecha)) {
       clasita = 'border bg-white '
     }
-    console.log(clasita)
     return clasita;
   }
   traerHoy() {
