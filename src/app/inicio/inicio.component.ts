@@ -172,7 +172,12 @@ export class InicioComponent implements OnInit {
         pedidos.push(element)
       }
     });
+    console.log(eve);
+    var nuevafecha = eve.year + "-" + eve.month + "-" + eve.day;
+    this.hoy = this.convertirFecha(eve);  
     this.reservas = pedidos;
+    // cambiar la fecha de entrega
+
   }
 
 

@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-12 col-md-auto text-center mb-3">
             <ngb-datepicker #dp (dateSelect)="reservaenCal($event)" (navigate)="date = $event.next"
-                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1" [weekdays]="true"></ngb-datepicker>
+                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1" [weekdays]="true" []></ngb-datepicker>
             <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
                 let-disabled="disabled" let-focused="focused" class="p-2">
                 <span
