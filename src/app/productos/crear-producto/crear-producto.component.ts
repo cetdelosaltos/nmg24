@@ -9,15 +9,14 @@ import Swal from 'sweetalert2';
 import { SocketService } from '../../../servicios/socket.service';
 
 @Component({
-  selector: 'app-crear-producto',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    InputMaskModule
-  ],
-  templateUrl: './crear-producto.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-crear-producto',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        InputMaskModule
+    ],
+    templateUrl: './crear-producto.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrearProductoComponent implements OnInit {
   planillaProducto: any;
@@ -42,14 +41,24 @@ export class CrearProductoComponent implements OnInit {
         id: [this.producto.id, Validators.required],
         sku: [this.producto.sku, [Validators.required]],
         nombre: [this.producto.nombre, Validators.required],
-        precio: [this.producto.precio, Validators.required]
+        precio: [this.producto.precio, Validators.required],
+        variaciones: this.fb.array(this.producto.variaciones.map((variacion: any) => this.fb.group({
+          nombre: [variacion.nombre, [Validators.required]],
+          precio: [variacion.valor, [Validators.required]]
+        })))
       })
     } else {
       this.planillaProducto = this.fb.group({
         nombre: ['', Validators.required],
         sku: ['', [Validators.required, this.verificarSKU(this.lalista)]],
-        precio: ['']
-      });
+        precio: ['', Validators.required],
+        variaciones: this.fb.array([
+          this.fb.group({
+                nombre: ['', Validators.required],
+                precio: ['', Validators.required]
+              })
+        ])
+      })
     }
   }
   async actualizarProducto() {
@@ -143,4 +152,22 @@ export class CrearProductoComponent implements OnInit {
     prefix: '',
     placeholder: '0',
   });
+  eliminarVariacion(reserva: any) {
+  }
+  agregarVariacion() {
+    const variaciones = this.planillaProducto.get('variaciones') as any;
+    console.log(variaciones);
+    variaciones.push(this.fb.group({
+      nombre: ['', Validators.required],
+      precio: ['', Validators.required]
+    }))
+    this.cambios.detectChanges();
+  }
+  quitarVariacion(index: any) {
+    const variaciones = this.planillaProducto.get('variaciones') as any;
+    variaciones.removeAt(index);
+    this.cambios.detectChanges();
+  
+  }
+
 }

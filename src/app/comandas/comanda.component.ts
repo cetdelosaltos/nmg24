@@ -20,11 +20,10 @@ import { Comanda } from '../../interfaces/comanda';
 import { Pedido } from '../../interfaces/pedido';
 import { Reserva } from '../../interfaces/reserva';
 @Component({
-  selector: 'app-comanda',
-  standalone: true,
-  imports: [CommonModule, NgbTypeaheadModule, FormsModule, RouterModule, ReactiveFormsModule, Hora24a12Pipe],
-  templateUrl: './comanda.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-comanda',
+    imports: [CommonModule, NgbTypeaheadModule, FormsModule, RouterModule, ReactiveFormsModule],
+    templateUrl: './comanda.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComandaComponent implements OnInit {
   @Input() reserva: any;

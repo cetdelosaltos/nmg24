@@ -2,3 +2,6 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+.ngb-dp-month .ngb-dp-week [tabindex="0"] {
+    background-color: #d1e7dd;
+}

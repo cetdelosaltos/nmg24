@@ -10,20 +10,18 @@ import { VerEntradaComponent } from './ver-entrada/ver-entrada.component';
 import { SocketService } from '../../servicios/socket.service';
 
 @Component({
-  selector: 'app-entradas',
-  standalone: true,
-  providers: [
-    CurrencyPipe,
-    DatePipe,
-  ],
-
-  imports: [
-    NgxDatatableModule,
-    CommonModule,
-    NgbModule
-  ],
-  templateUrl: './entradas.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-entradas',
+    providers: [
+        CurrencyPipe,
+        DatePipe,
+    ],
+    imports: [
+        NgxDatatableModule,
+        CommonModule,
+        NgbModule
+    ],
+    templateUrl: './entradas.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EntradasComponent implements OnInit {
   @ViewChild(DatatableComponent) compras!: DatatableComponent;

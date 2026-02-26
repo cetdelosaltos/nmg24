@@ -9,14 +9,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SocketService } from '../../servicios/socket.service';
 
 @Component({
-  selector: 'app-clientes',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './clientes.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-clientes',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './clientes.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClientesComponent implements OnInit {
   cargado: boolean = false;

@@ -7,14 +7,13 @@ import { PedidosModalComponent } from '../pedidos-modal/pedidos-modal.component'
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'datos-comprador',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './datos-comprador.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'datos-comprador',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './datos-comprador.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatosCompradorComponent implements OnInit {
 

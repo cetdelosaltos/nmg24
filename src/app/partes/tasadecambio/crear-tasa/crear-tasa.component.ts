@@ -8,17 +8,16 @@ import { SocketService } from '../../../../servicios/socket.service';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-crear-tasa',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgbModalModule,
-    InputMaskModule
-  ],
-  templateUrl: './crear-tasa.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-crear-tasa',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbModalModule,
+        InputMaskModule
+    ],
+    templateUrl: './crear-tasa.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrearTasaComponent implements OnInit {
   plantillaTasa: any = []

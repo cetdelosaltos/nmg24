@@ -9,8 +9,7 @@
                     <h1>Para Hoy </h1>
                 </div>
                 <div class="col-md-9">
-                    <h1 class="text-primary">{{ hoy }} - <small class="text-dark">{{ reloj() | date: 'hh:mm a'
-                            }}</small>
+                    <h1 class="text-primary">{{ hoy }} - <small class="text-dark">{{ reloj() | date: 'hh:mm a'}}</small>
                     </h1>
                 </div>
             </div>
@@ -19,7 +18,7 @@
     <div class="row">
         <div class="col-12 col-md-auto text-center mb-3">
             <ngb-datepicker #dp (dateSelect)="reservaenCal($event)" (navigate)="date = $event.next"
-                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1" [weekdays]="true" []></ngb-datepicker>
+                [dayTemplate]="customDay" class="w-100" [firstDayOfWeek]="1"></ngb-datepicker>
             <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
                 let-disabled="disabled" let-focused="focused" class="p-2">
                 <span
@@ -31,8 +30,6 @@
         </div>
         <div class="col-12 col-md">
             <div class="table-responsive">
-
-
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
@@ -56,12 +53,10 @@
                                     </div>
                                     <div class="col-12 order-0 order-md-1 col-md-auto text-end">
                                         <small>
-                                            <span>Creada el: {{ reser.reserva.createdAt | date:" dd-MM-yyyy hh:mm
-                                                a"}}</span>
+                                            <span>Creada el: {{ reser.reserva.createdAt | date:" dd-MM-yyyy hh:mm a"}}</span>
                                             @if(reser.reserva.updatedAt !== reser.reserva.createdAt){
                                             <br>
-                                            <span>Modificada el: {{ reser.reserva.updatedAt | date:"dd-MM-yyyy hh:mm
-                                                a"}}</span>
+                                            <span>Modificada el: {{ reser.reserva.updatedAt | date:"dd-MM-yyyy hh:mm a"}}</span>
                                             }
                                         </small>
                                     </div>

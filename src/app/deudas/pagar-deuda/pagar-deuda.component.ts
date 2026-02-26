@@ -11,17 +11,15 @@ import { Reserva } from '../../../interfaces/reserva';
 import { SocketService } from '../../../servicios/socket.service';
 
 @Component({
-  selector: 'app-pagar-deuda',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-
-  ],
-  providers: [CurrencyPipe],
-  templateUrl: './pagar-deuda.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-pagar-deuda',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    providers: [CurrencyPipe],
+    templateUrl: './pagar-deuda.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PagarDeudaComponent implements OnInit {
   principal: any = [];

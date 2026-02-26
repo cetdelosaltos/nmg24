@@ -6,16 +6,15 @@ import { Router, RouterModule } from '@angular/router';
 import { ExDBCon } from '../../../servicios/conectorex';
 import Swal from 'sweetalert2';
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterModule
-  ],
-  templateUrl: './login.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-login',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule
+    ],
+    templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
   iniciaPlan: any = [];

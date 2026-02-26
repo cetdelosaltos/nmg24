@@ -10,14 +10,13 @@ import { Pagos } from '../../interfaces/pagos';
 import { Tasadecambio } from '../../interfaces/tasadecambio';
 
 @Component({
-  selector: 'app-deudas',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './deudas.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-deudas',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './deudas.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeudasComponent implements OnInit {
   @Input() deudaid: any;

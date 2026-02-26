@@ -9,11 +9,10 @@ import { CrearTasaComponent } from './crear-tasa/crear-tasa.component';
 import { Tasadecambio } from '../../../interfaces/tasadecambio';
 
 @Component({
-  selector: 'app-tasadecambio',
-  standalone: true,
-  imports: [CommonModule, InputMaskModule, FormsModule, NgbModalModule],
-  templateUrl: './tasadecambio.component.html',
-  styleUrl: './tasadecambio.component.css'
+    selector: 'app-tasadecambio',
+    imports: [CommonModule, InputMaskModule, FormsModule, NgbModalModule],
+    templateUrl: './tasadecambio.component.html',
+    styleUrl: './tasadecambio.component.css'
 })
 export class TasadecambioComponent {
   tasita = signal({ tasa: 0, createdAt: '' });

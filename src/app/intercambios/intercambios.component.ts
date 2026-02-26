@@ -9,14 +9,13 @@ import { SocketService } from '../../servicios/socket.service';
 import { ComandasService } from '../../servicios/comandas.service';
 
 @Component({
-  selector: 'app-intercambios',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgbModalModule
-  ],
-  templateUrl: './intercambios.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-intercambios',
+    imports: [
+        CommonModule,
+        NgbModalModule
+    ],
+    templateUrl: './intercambios.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IntercambiosComponent implements OnInit {
   intercambios = signal([{

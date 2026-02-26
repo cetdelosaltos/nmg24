@@ -8,15 +8,14 @@ import { TelefonoService } from '../../../servicios/telefono.service';
 import { SocketService } from '../../../servicios/socket.service';
 
 @Component({
-  selector: 'app-crear-cliente',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './crear-cliente.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-crear-cliente',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './crear-cliente.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrearClienteComponent implements OnInit {
   planillaComprador: any;

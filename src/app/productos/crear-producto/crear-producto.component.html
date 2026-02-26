@@ -47,6 +47,31 @@
                     </div>
                 </div>
             </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-4">
+                        Variaciones
+                        aja...
+                    </div>
+                    <div class="col">
+                            <div *ngFor="let variacion of planillaProducto.controls.variaciones.controls; let i = index" [formGroupName]="i">
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre de la variación">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" formControlName="precio" class="form-control" placeholder="Valor de la variación">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-danger" (click)="eliminarVariacion(i)">Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <a type="button" class="btn btn-secondary mt-2" (click)="agregarVariacion()">Agregar Variación</a>
+                        </div>
+                    </div>
+
+            </li>
         </ul>
     </form>
 </div>

@@ -12,17 +12,16 @@ import Swal from 'sweetalert2';
 import { SocketService } from '../../../servicios/socket.service';
 
 @Component({
-  selector: 'app-crear-intercambio',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbModalModule,
-    NgbTypeaheadModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './crear-intercambio.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-crear-intercambio',
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgbModalModule,
+        NgbTypeaheadModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './crear-intercambio.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrearIntercambioComponent implements OnInit, OnChanges {
   planillaIntercambio: any = [];

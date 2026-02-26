@@ -8,14 +8,13 @@ import { OrderByPipe } from '../../servicios/orderBy.pipe';
 import { SocketService } from '../../servicios/socket.service';
 
 @Component({
-  selector: 'app-productos',
-  standalone: true,
-  imports: [
-    CommonModule,
-    OrderByPipe
-  ],
-  templateUrl: './productos.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-productos',
+    imports: [
+        CommonModule,
+        OrderByPipe
+    ],
+    templateUrl: './productos.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductosComponent implements OnInit {
   losproductos: any = [];

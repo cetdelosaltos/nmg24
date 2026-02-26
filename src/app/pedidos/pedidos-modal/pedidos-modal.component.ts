@@ -10,15 +10,14 @@ import Swal from 'sweetalert2';
 import { SocketService } from '../../../servicios/socket.service';
 
 @Component({
-  selector: 'app-pedidos-modal',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgbModalModule,
-    RouterModule,
-  ],
-  templateUrl: './pedidos-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-pedidos-modal',
+    imports: [
+        CommonModule,
+        NgbModalModule,
+        RouterModule,
+    ],
+    templateUrl: './pedidos-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PedidosModalComponent implements OnInit {
   reservacion: any;

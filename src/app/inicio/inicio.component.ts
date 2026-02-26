@@ -1,23 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, signal, ViewEncapsulation, type OnInit } from '@angular/core';
+import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injectable, signal, ViewEncapsulation, type OnInit } from '@angular/core';
 import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TasaDeCambioService } from '../../servicios/tasa-de-cambio.service';
 import { ReservasService } from '../../servicios/reservas.service';
 import { Router, RouterModule } from '@angular/router';
 import { PedidosModalComponent } from '../pedidos/pedidos-modal/pedidos-modal.component';
 import { SocketService } from '../../servicios/socket.service';
-
 @Component({
-  selector: 'app-inicio',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgbDatepickerModule
-  ],
-  templateUrl: './inicio.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './inicio.component.css'
+    selector: 'app-inicio',
+    templateUrl: './inicio.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrl: './inicio.component.css',
+    standalone: true,
+    imports: [CommonModule, NgbDatepickerModule, RouterModule],
 })
 
 
@@ -26,7 +21,7 @@ export class InicioComponent implements OnInit {
   hoy: any;
   reservas: any = [];
   comandas: any = [];
-  date: { year: number; month: number; } | undefined;
+  date: { year: number; month: number;  } | undefined;
   locacion: any = "Tienda Física";
   todasReservas: any = [];
   contadorReloj: any;
@@ -35,7 +30,7 @@ export class InicioComponent implements OnInit {
   tasadecambio: any = {};
   constructor(
     private modal: NgbModal,
-    public ruta: Router,
+    private ruta: Router,
     private calendar: NgbCalendar,
     private tasa: TasaDeCambioService,
     private app: ReservasService,
@@ -235,7 +230,6 @@ export class InicioComponent implements OnInit {
       this.reservas = [];
     })
   }
-
 
   async procesarPedido(pedido: any, estatus: any) {
     var pasado;

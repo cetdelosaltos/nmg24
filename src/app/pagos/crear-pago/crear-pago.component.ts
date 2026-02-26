@@ -11,17 +11,15 @@ import { Reserva } from '../../../interfaces/reserva';
 import { Pagos } from '../../../interfaces/pagos';
 
 @Component({
-  selector: 'app-crear-pago',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-
-  ],
-  providers: [CurrencyPipe],
-  templateUrl: './crear-pago.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-crear-pago',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    providers: [CurrencyPipe],
+    templateUrl: './crear-pago.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrearPagoComponent implements OnInit {
   datosPago: any = [];

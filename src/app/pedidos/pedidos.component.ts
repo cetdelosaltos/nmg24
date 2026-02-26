@@ -10,18 +10,17 @@ import { FormsModule } from '@angular/forms';
 import { DatosCompradorComponent } from './datos-comprador/datos-comprador.component';
 
 @Component({
-  selector: 'app-pedidos',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    NgbDatepickerModule,
-    DatosCompradorComponent
-  ],
-  templateUrl: './pedidos.component.html',
-  styleUrls: ['./pedidos.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-pedidos',
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        NgbDatepickerModule,
+        DatosCompradorComponent
+    ],
+    templateUrl: './pedidos.component.html',
+    styleUrls: ['./pedidos.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PedidosComponent implements OnInit {
   cargado: boolean = false;
